@@ -30,11 +30,10 @@ router.post('/', async (req, res) => {
         return;
         }
         //criar dados
-        // const createdProduct = 
-        await Products.create(products);
-        // createdProduct._id = createProduct._id.toString();
-        // res.status(201).json({message:"Produto inserido com sucesso!"});
-        // res.json({createdProduct});
+         
+        const createdProduct = await Products.create(products);
+        createdProduct._id = createProduct._id.toString();
+        res.status(201).json({message:"Produto inserido com sucesso!"}, createdProduct);
 
     }catch (error) {
         res.status(500).json({error: error});
@@ -59,7 +58,7 @@ router.get('/search', async (req, res) => {
   
     try {
       // Realiza a busca no banco de dados usando o critério de descricao
-      const products = await Products.find({ descricao: { $regex: descricao, $options: 'i' } });
+      const products = await Products.find({ descricao: { $regex: '^' + descricao, $options: 'i' } });
   
       res.json(products);
     } catch (error) {
